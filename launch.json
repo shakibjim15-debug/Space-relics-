@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Left Behind server",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/serve.py",
+      "args": ["--port", "8000"],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}
