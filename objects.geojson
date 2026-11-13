@@ -1,0 +1,506 @@
+{
+  "type": "FeatureCollection",
+  "name": "NASA hardware left behind on the Moon and Mars",
+  "description": "Curated landing-site atlas of NASA descent stages, landers, rovers, experiments and aircraft still on the Moon or Mars.",
+  "license": "Apache-2.0",
+  "image_license": "NASA public domain (see README for credits)",
+  "coordinate_reference": "Mean body-fixed latitude/longitude, east-positive, approximate landing-site centres.",
+  "attribution": "NASA mission pages, NASA Image and Video Library, NASA NSSDC, NASA Moon Trek and NASA Mars Trek.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.47297,
+          0.67408
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-11-eagle",
+        "name": "Eagle descent stage & Tranquility Base",
+        "mission": "Apollo 11",
+        "body": "Moon",
+        "lat": 0.67408,
+        "lon": 23.47297,
+        "left_behind": 1969,
+        "last_contact": "1969-07-21",
+        "last_contact_note": "Crew departed; the laser retroreflector still returns pulses from Earth.",
+        "why_left": "The descent stage was the launch platform for Eagle's ascent stage. Every gram returned to orbit had to be lifted, so the descent stage, the Laser Ranging Retroreflector and the early surface experiments stayed behind.",
+        "science_enabled": "Apollo 11's Laser Ranging Retroreflector is still used to measure the Moon's distance to within millimetres. The EASEP seismometer recorded moonquakes and dust until it fell silent weeks later.",
+        "image": "assets/images/apollo11-eagle.jpg",
+        "image_credit": "NASA / JSC",
+        "source_url": "https://www.nasa.gov/mission/apollo-11/",
+        "image_alt": "Astronaut Buzz Aldrin stands beside the Lunar Module Eagle at Tranquility Base.",
+        "name_bn": "ঈগল ডিসেন্ট স্টেজ ও ট্রাঙ্কুইলিটি বেস",
+        "mission_bn": "অ্যাপোলো ১১",
+        "why_left_bn": "ঈগল-এর অ্যাসেন্ট স্টেজকে নভোচারীদের নিয়ে ওড়ার জন্য যথেষ্ট হালকা হতে হয়েছিল। তাই ডিসেন্ট স্টেজ, লেজার রেঞ্জিং রেট্রোরিফ্লেক্টর ও প্রথম দিকের বৈজ্ঞানিক যন্ত্র চাঁদের ধুলোয় থেকে যায়।",
+        "science_enabled_bn": "অ্যাপোলো ১১-এর লেজার রেঞ্জিং রেট্রোরিফ্লেক্টর এখনও চাঁদের দূরত্ব মিলিমিটার নির্ভুলতায় মাপতে ব্যবহৃত হয়। EASEP-এর ভূমিকম্পমাপক কয়েক সপ্তাহ ধরে চাঁদের কম্পন ও ধুলো রেকর্ড করে।",
+        "last_contact_note_bn": "নভোচারীরা চলে যান; লেজার রেট্রোরিফ্লেক্টর এখনও পৃথিবী থেকে আলো ফেরায়।",
+        "image_alt_bn": "ট্রাঙ্কুইলিটি বেসে লুনার মডিউল ঈগল-এর পাশে নভোচারী বাজ অলড্রিন।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -23.42157,
+          -3.01239
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-12-intrepid",
+        "name": "Intrepid descent stage & Surveyor 3 site",
+        "mission": "Apollo 12",
+        "body": "Moon",
+        "lat": -3.01239,
+        "lon": -23.42157,
+        "left_behind": 1969,
+        "last_contact": "1977-09-30",
+        "last_contact_note": "ALSEP operations ended; the descent stage and Surveyor 3 remain.",
+        "why_left": "Intrepid's descent stage stayed after Pete Conrad and Alan Bean climbed back aboard. The crew also cut pieces from Surveyor 3, which had landed nearby two years earlier, to see how the Moon had weathered the hardware.",
+        "science_enabled": "The Apollo 12 ALSEP returned seismic, magnetic and solar-wind data until 1977. The returned Surveyor parts showed that lunar dust and radiation had not destroyed the spacecraft.",
+        "image": "assets/images/apollo12-intrepid.jpg",
+        "image_credit": "NASA / JSC",
+        "source_url": "https://www.nasa.gov/mission/apollo-12/",
+        "image_alt": "The Apollo 12 Lunar Module Intrepid on the Moon, with astronaut Alan Bean at the ladder.",
+        "name_bn": "ইন্ট্রেপিড ডিসেন্ট স্টেজ ও সার্ভেয়ার ৩ সাইট",
+        "mission_bn": "অ্যাপোলো ১২",
+        "why_left_bn": "কনরাড ও বিন ঈগলে ফিরে গেলে ইন্ট্রেপিডের ডিসেন্ট স্টেজ থেকে যায়। নভোচারীরা কাছেই নামা সার্ভেয়ার ৩-এর যন্ত্রাংশ কেটে নিয়ে আসেন, যাতে চাঁদের পরিবেশে যন্ত্রপাতির ক্ষয় বোঝা যায়।",
+        "science_enabled_bn": "অ্যাপোলো ১২-এর ALSEP ১৯৭৭ পর্যন্ত কম্পন, চৌম্বকক্ষেত্র ও সৌরবায়ুর তথ্য পাঠায়। ফিরিয়ে আনা সার্ভেয়ার ৩-এর অংশ দেখায়, চাঁদের ধুলো ও বিকিরণ যন্ত্রপাতিকে ধ্বংস করেনি।",
+        "last_contact_note_bn": "ALSEP পরিচালনা শেষ; ডিসেন্ট স্টেজ ও সার্ভেয়ার ৩ রয়েছে।",
+        "image_alt_bn": "চাঁদে অ্যাপোলো ১২-এর লুনার মডিউল ইন্ট্রেপিড, মইয়ের কাছে নভোচারী অ্যালান বিন।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -17.47136,
+          -3.6453
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-14-antares",
+        "name": "Antares descent stage & Fra Mauro experiments",
+        "mission": "Apollo 14",
+        "body": "Moon",
+        "lat": -3.6453,
+        "lon": -17.47136,
+        "left_behind": 1971,
+        "last_contact": "1977-09-30",
+        "last_contact_note": "Apollo 14's ALSEP operated until 1977.",
+        "why_left": "Antares could not carry its own descent stage home. The crew left the lander, the ALSEP central station and the rickshaw-like MET on the Fra Mauro highlands.",
+        "science_enabled": "Apollo 14's seismometer listened for moonquakes, and its active seismic experiment fired small charges to probe the lunar crust. The station ran until 1977.",
+        "image": "assets/images/apollo14-antares.jpg",
+        "image_credit": "NASA / GSFC / Arizona State University",
+        "source_url": "https://www.nasa.gov/mission/apollo-14/",
+        "image_alt": "LRO overhead image of the Apollo 14 site, showing the Antares descent stage and astronaut tracks.",
+        "name_bn": "অ্যান্টারেস ডিসেন্ট স্টেজ ও ফ্রা মাউরো পরীক্ষা",
+        "mission_bn": "অ্যাপোলো ১৪",
+        "why_left_bn": "অ্যান্টারেস নিজের ডিসেন্ট স্টেজ ঘরে নিয়ে যেতে পারত না। নভোচারীরা ল্যান্ডার, ALSEP কেন্দ্রীয় স্টেশন ও মেট-এর মতো যন্ত্র ফ্রা মাউরোর উঁচু ভূমিতে রেখে আসেন।",
+        "science_enabled_bn": "অ্যাপোলো ১৪-এর ভূমিকম্পমাপক চাঁদের কম্পন শুনেছে, আর সক্রিয় ভূকম্পন পরীক্ষা ছোট বিস্ফোরণ ঘটিয়ে চন্দ্রভূত্বক পরীক্ষা করেছে। স্টেশনটি ১৯৭৭ পর্যন্ত চলে।",
+        "last_contact_note_bn": "অ্যাপোলো ১৪-এর ALSEP ১৯৭৭ সালে বন্ধ হয়।",
+        "image_alt_bn": "অ্যাপোলো ১৪ সাইটের LRO-এর ওপর থেকে তোলা ছবি, অ্যান্টারেস ডিসেন্ট স্টেজ ও নভোচারীদের পদচিহ্ন।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.63386,
+          26.13222
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-15-falcon",
+        "name": "Falcon descent stage & first lunar rover",
+        "mission": "Apollo 15",
+        "body": "Moon",
+        "lat": 26.13222,
+        "lon": 3.63386,
+        "left_behind": 1971,
+        "last_contact": "1977-09-30",
+        "last_contact_note": "Apollo 15's ALSEP operated until 1977; the rover remains parked.",
+        "why_left": "Falcon's descent stage became the base for the Lunar Roving Vehicle and the Hadley-Apennine ALSEP. The rover was left parked after David Scott and James Irwin returned to orbit.",
+        "science_enabled": "Apollo 15's ALSEP measured heat flowing from the Moon's interior and recorded moonquakes. The rover proved that astronauts could cover tens of kilometres in a single traverse.",
+        "image": "assets/images/apollo15-falcon.jpg",
+        "image_credit": "NASA / JSC",
+        "source_url": "https://www.nasa.gov/mission/apollo-15/",
+        "image_alt": "Astronaut James Irwin works at the Lunar Roving Vehicle, with the shadow of the Falcon lunar module in the foreground.",
+        "name_bn": "ফ্যালকন ডিসেন্ট স্টেজ ও প্রথম চন্দ্র রোভার",
+        "mission_bn": "অ্যাপোলো ১৫",
+        "why_left_bn": "ফ্যালকনের ডিসেন্ট স্টেজ চন্দ্র রোভার ও হ্যাডলি-অ্যাপেনাইন ALSEP-এর ভিত্তি হয়ে যায়। ডেভিড স্কট ও জেমস আরউইন ফিরে যাওয়ার পর রোভারটি পার্ক করা অবস্থায় থেকে যায়।",
+        "science_enabled_bn": "অ্যাপোলো ১৫-এর ALSEP চাঁদের অভ্যন্তর থেকে তাপপ্রবাহ মেপেছে ও কম্পন রেকর্ড করেছে। রোভার প্রমাণ করে নভোচারীরা এক ভ্রমণেই কয়েক ডজন কিলোমিটার যেতে পারেন।",
+        "last_contact_note_bn": "অ্যাপোলো ১৫-এর ALSEP ১৯৭৭ সালে বন্ধ হয়; রোভার পার্ক করা অবস্থায় রয়েছে।",
+        "image_alt_bn": "নভোচারী জেমস আরউইন চন্দ্র রোভারে কাজ করছেন, সামনে ফ্যালকন লুনার মডিউলের ছায়া।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          15.50019,
+          -8.97301
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-16-orion",
+        "name": "Orion descent stage & Descartes rover",
+        "mission": "Apollo 16",
+        "body": "Moon",
+        "lat": -8.97301,
+        "lon": 15.50019,
+        "left_behind": 1972,
+        "last_contact": "1977-09-30",
+        "last_contact_note": "Apollo 16's ALSEP operated until 1977.",
+        "why_left": "Orion's descent stage and the Lunar Roving Vehicle stayed in the Descartes highlands. The mission's plutonium-powered ALSEP continued after the crew left.",
+        "science_enabled": "The ALSEP's heat-flow and seismic instruments sampled a highland site unlike the earlier mare landings, and the rover extended the reach of geology traverses.",
+        "image": "assets/images/apollo16-orion.jpg",
+        "image_credit": "NASA / JSC",
+        "source_url": "https://www.nasa.gov/mission/apollo-16/",
+        "image_alt": "The Apollo 16 Lunar Module Orion seen from a distance across the Descartes highlands.",
+        "name_bn": "ওরিয়ন ডিসেন্ট স্টেজ ও ডেকার্ট রোভার",
+        "mission_bn": "অ্যাপোলো ১৬",
+        "why_left_bn": "ওরিয়নের ডিসেন্ট স্টেজ ও চন্দ্র রোভার ডেকার্টের উঁচু ভূমিতে থেকে যায়। নভোচারীদের চলে যাওয়ার পরও মিশনের প্লুটোনিয়ামচালিত ALSEP কাজ করতে থাকে।",
+        "science_enabled_bn": "ALSEP-এর তাপপ্রবাহ ও ভূমিকম্প যন্ত্র আগের সমতল অবতরণের চেয়ে ভিন্ন এক উঁচুভূমির নমুনা দেয়; রোভার ভূতাত্ত্বিক ভ্রমণের পরিধি বহুগুণ বাড়ায়।",
+        "last_contact_note_bn": "অ্যাপোলো ১৬-এর ALSEP ১৯৭৭ সালে বন্ধ হয়।",
+        "image_alt_bn": "ডেকার্টের উঁচু ভূমি থেকে দূরে দেখা যাচ্ছে অ্যাপোলো ১৬-এর লুনার মডিউল ওরিয়ন।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.77168,
+          20.1908
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-apollo-17-challenger",
+        "name": "Challenger descent stage & final Moon rover",
+        "mission": "Apollo 17",
+        "body": "Moon",
+        "lat": 20.1908,
+        "lon": 30.77168,
+        "left_behind": 1972,
+        "last_contact": "1977-09-30",
+        "last_contact_note": "Apollo 17's ALSEP operated until 1977.",
+        "why_left": "The last crewed Moon landing ended with Challenger's ascent stage lifting off and the descent stage, rover, ALSEP and deep core drill remaining in Taurus-Littrow.",
+        "science_enabled": "Apollo 17's ALSEP monitored the Moon until 1977, while its heat-flow probes and seismic data helped map the lunar interior. The site is still studied from orbit.",
+        "image": "assets/images/apollo17-challenger.jpg",
+        "image_credit": "NASA / JSC",
+        "source_url": "https://www.nasa.gov/mission/apollo-17/",
+        "image_alt": "The ascent stage of Apollo 17's Challenger lifts off, leaving its descent stage on the lunar surface.",
+        "name_bn": "চ্যালেঞ্জার ডিসেন্ট স্টেজ ও শেষ চন্দ্র রোভার",
+        "mission_bn": "অ্যাপোলো ১৭",
+        "why_left_bn": "শেষ মনুষ্যবাহী চন্দ্র অবতরণে চ্যালেঞ্জারের অ্যাসেন্ট স্টেজ উড়ে গেলে ডিসেন্ট স্টেজ, রোভার, ALSEP ও গভীর কোর ড্রিল টরাস-লিট্রোতে থেকে যায়।",
+        "science_enabled_bn": "অ্যাপোলো ১৭-এর ALSEP ১৯৭৭ পর্যন্ত চাঁদ পর্যবেক্ষণ করে; তাপপ্রবাহ ও ভূমিকম্পের তথ্য চন্দ্র অভ্যন্তরের মানচিত্র তৈরি করতে সাহায্য করে। সাইটটি এখনও কক্ষপথ থেকে গবেষণা হয়।",
+        "last_contact_note_bn": "অ্যাপোলো ১৭-এর ALSEP ১৯৭৭ সালে বন্ধ হয়।",
+        "image_alt_bn": "অ্যাপোলো ১৭-এর চ্যালেঞ্জারের অ্যাসেন্ট স্টেজ উড়ে যাচ্ছে, নিচে ডিসেন্ট স্টেজ চাঁদের পৃষ্ঠে।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -43.22,
+          -2.45
+        ]
+      },
+      "properties": {
+        "dataset_id": "moon-surveyor-1",
+        "name": "Surveyor 1",
+        "mission": "Surveyor 1",
+        "body": "Moon",
+        "lat": -2.45,
+        "lon": -43.22,
+        "left_behind": 1966,
+        "last_contact": "1966-07-13",
+        "last_contact_note": "Its battery failed after the first lunar night.",
+        "why_left": "Surveyor 1 was designed to prove that a spacecraft could soft-land on the Moon. After returning more than 11,000 pictures over six weeks, it was left to the lunar night; its battery never revived.",
+        "science_enabled": "Surveyor 1 showed that the lunar surface could support a lander, cleared the way for Apollo, and returned close-up views of the regolith and its own long shadow.",
+        "image": "assets/images/surveyor1.jpg",
+        "image_credit": "NASA / JPL",
+        "source_url": "https://science.nasa.gov/mission/surveyor-1/",
+        "image_alt": "The long shadow of Surveyor 1 cast across the lunar surface.",
+        "name_bn": "সার্ভেয়ার ১",
+        "mission_bn": "সার্ভেয়ার ১",
+        "why_left_bn": "সার্ভেয়ার ১ প্রমাণ করেছিল চাঁদে নরম অবতরণ সম্ভব। ছয় সপ্তাহে ১১,০০০-এর বেশি ছবি পাঠিয়ে যন্ত্রটি চন্দ্ররাত্রির ঠান্ডায় রেখে দেওয়া হয়; ব্যাটারি আর চালু হয়নি।",
+        "science_enabled_bn": "সার্ভেয়ার ১ দেখায় যে চাঁদের পৃষ্ঠ ল্যান্ডার বহন করতে পারে, অ্যাপোলোর পথ তৈরি করে এবং রেগোলিথ ও নিজের ছায়ার কাছাকাছি ছবি পাঠায়।",
+        "last_contact_note_bn": "প্রথম চন্দ্ররাত্রির পর ব্যাটারি আর চালু হয়নি।",
+        "image_alt_bn": "চাঁদের মাটিতে সার্ভেয়ার ১-এর দীর্ঘ ছায়া।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -47.95,
+          22.27
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-viking-1",
+        "name": "Viking 1 lander",
+        "mission": "Viking 1",
+        "body": "Mars",
+        "lat": 22.27,
+        "lon": -47.95,
+        "left_behind": 1976,
+        "last_contact": "1982-11-11",
+        "last_contact_note": "Final transmission; operations ended after the lander lost power.",
+        "why_left": "Viking 1 had no way home. It stayed in Chryse Planitia for six years, running biology, weather and imaging experiments after its 1976 landing.",
+        "science_enabled": "Viking 1's cameras and weather station gave the first long record of a Martian year, and its biology experiments set the terms of the search for life on Mars.",
+        "image": "assets/images/viking1.jpg",
+        "image_credit": "NASA / JPL",
+        "source_url": "https://science.nasa.gov/mission/viking-1/",
+        "image_alt": "Viking 1 lander hardware and U.S. flag above the rocky Martian surface.",
+        "name_bn": "ভাইকিং ১ ল্যান্ডার",
+        "mission_bn": "ভাইকিং ১",
+        "why_left_bn": "ভাইকিং ১-এর ফেরার কোনো ব্যবস্থা ছিল না। ১৯৭৬ সালের অবতরণের পর ছয় বছর ধরে এটি ক্রাইস প্লানিতিয়ায় জীববিজ্ঞান, আবহাওয়া ও ছবি তোলার পরীক্ষা চালায়।",
+        "science_enabled_bn": "ভাইকিং ১-এর ক্যামেরা ও আবহাওয়া কেন্দ্র মঙ্গলের এক পূর্ণ বছরের প্রথম দীর্ঘ রেকর্ড দেয়; জীববিজ্ঞান পরীক্ষাগুলো মঙ্গলে প্রাণের অনুসন্ধানের প্রশ্ন ঠিক করে দেয়।",
+        "last_contact_note_bn": "শক্তি ফুরিয়ে যাওয়ার পর পরিচালনা বন্ধ হয়।",
+        "image_alt_bn": "মঙ্গলের পাথুরে পৃষ্ঠের ওপর ভাইকিং ১ ল্যান্ডারের যন্ত্রাংশ ও মার্কিন পতাকা।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          134.01,
+          48.27
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-viking-2",
+        "name": "Viking 2 lander",
+        "mission": "Viking 2",
+        "body": "Mars",
+        "lat": 48.27,
+        "lon": 134.01,
+        "left_behind": 1976,
+        "last_contact": "1980-04-11",
+        "last_contact_note": "The lander fell silent after a final transmission.",
+        "why_left": "Viking 2 landed in Utopia Planitia with the same one-way architecture as Viking 1. When its power and communications failed, the lander stayed where it had landed.",
+        "science_enabled": "Viking 2 measured the Martian soil and atmosphere, documented seasonal frost and dust, and relayed images of a rocky northern plain.",
+        "image": "assets/images/viking2.jpg",
+        "image_credit": "NASA / JPL",
+        "source_url": "https://science.nasa.gov/mission/viking-2/",
+        "image_alt": "Viking 2's first color view of the rocky Utopia Planitia surface.",
+        "name_bn": "ভাইকিং ২ ল্যান্ডার",
+        "mission_bn": "ভাইকিং ২",
+        "why_left_bn": "ভাইকিং ২ একই একমুখী নকশায় ইউটোপিয়া প্লানিতিয়ায় নামে। বিদ্যুৎ ও যোগাযোগ ব্যর্থ হলে ল্যান্ডারটি যেখানে নেমেছিল সেখানেই থেকে যায়।",
+        "science_enabled_bn": "ভাইকিং ২ মঙ্গলের মাটি ও বায়ুমণ্ডল মাপে, মৌসুমি তুষার ও ধুলো নথিভুক্ত করে এবং পাথুরে উত্তর সমতলের ছবি পাঠায়।",
+        "last_contact_note_bn": "শেষ সংকেতের পর ল্যান্ডার নীরব হয়ে যায়।",
+        "image_alt_bn": "ইউটোপিয়া প্লানিতিয়ার পাথুরে পৃষ্ঠে ভাইকিং ২-এর প্রথম রঙিন দৃশ্য।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -33.22,
+          19.13
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-pathfinder-sojourner",
+        "name": "Pathfinder lander & Sojourner rover",
+        "mission": "Mars Pathfinder",
+        "body": "Mars",
+        "lat": 19.13,
+        "lon": -33.22,
+        "left_behind": 1997,
+        "last_contact": "1997-09-27",
+        "last_contact_note": "The last data reached Earth on 27 September 1997.",
+        "why_left": "Pathfinder's airbag-cushioned lander and the microwave-oven-sized Sojourner rover stayed in Ares Vallis. The mission was planned as a 30-day technology demonstration; it lasted 83 sols.",
+        "science_enabled": "Sojourner's alpha proton X-ray spectrometer measured rocks, and Pathfinder's atmosphere and camera data showed how dust and weather behave at the Martian surface.",
+        "image": "assets/images/pathfinder-sojourner.jpg",
+        "image_credit": "NASA / JPL",
+        "source_url": "https://science.nasa.gov/mission/mars-pathfinder/",
+        "image_alt": "The Sojourner rover on a Pathfinder lander petal with the Martian surface beyond.",
+        "name_bn": "পাথফাইন্ডার ল্যান্ডার ও সোজার্নার রোভার",
+        "mission_bn": "মার্স পাথফাইন্ডার",
+        "why_left_bn": "পাথফাইন্ডারের এয়ারব্যাগে ভরা ল্যান্ডার ও মাইক্রোওয়েভ ওভেন আকারের সোজার্নার রোভার আরেস ভ্যালিসে থেকে যায়। ৩০ দিনের পরিকল্পিত মিশনটি ৮৩ সল চলে।",
+        "science_enabled_bn": "সোজার্নারের আলফা প্রোটন এক্স-রে স্পেকট্রোমিটার শিলা মাপে, আর পাথফাইন্ডারের বায়ুমণ্ডল ও ক্যামেরার তথ্য মঙ্গলপৃষ্ঠে ধুলো ও আবহাওয়ার আচরণ দেখায়।",
+        "last_contact_note_bn": "১৯৯৭ সালের ২৭ সেপ্টেম্বর শেষ তথ্য পৃথিবীতে পৌঁছায়।",
+        "image_alt_bn": "পাথফাইন্ডার ল্যান্ডারের পেটালে সোজার্নার রোভার, পেছনে মঙ্গলের পৃষ্ঠ।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          175.4785,
+          -14.5718
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-spirit",
+        "name": "Spirit rover",
+        "mission": "Mars Exploration Rover — Spirit",
+        "body": "Mars",
+        "lat": -14.5718,
+        "lon": 175.4785,
+        "left_behind": 2004,
+        "last_contact": "2010-03-22",
+        "last_contact_note": "The last contact came during the Martian winter.",
+        "why_left": "Spirit became trapped in soft soil at Troy in 2009. NASA turned the immobile rover into a stationary science platform; the last contact came during the Martian winter of 2010.",
+        "science_enabled": "From one spot, Spirit measured the local atmosphere, watched dust devils and studied rocks that pointed to ancient water at Gusev Crater. Its tracks are still visible from orbit.",
+        "image": "assets/images/spirit.jpg",
+        "image_credit": "NASA / JPL / Malin Space Science Systems",
+        "source_url": "https://science.nasa.gov/mission/mer-spirit/",
+        "image_alt": "Orbital image of Spirit on the Martian surface, with its tracks and shadow.",
+        "name_bn": "স্পিরিট রোভার",
+        "mission_bn": "মার্স এক্সপ্লোরেশন রোভার — স্পিরিট",
+        "why_left_bn": "২০০৯ সালে স্পিরিট নরম মাটিতে আটকে যায়। নাসা অচল রোভারটিকে স্থির বৈজ্ঞানিক প্ল্যাটফর্মে পরিণত করে; ২০১০ সালের মঙ্গলীয় শীতে শেষ সংযোগ আসে।",
+        "science_enabled_bn": "এক জায়গা থেকেই স্পিরিট স্থানীয় বায়ুমণ্ডল মাপে, ধুলোঘূর্ণি দেখে এবং গুসেভ ক্রেটারে প্রাচীন পানির ইঙ্গিত দেওয়া শিলা অধ্যয়ন করে।",
+        "last_contact_note_bn": "মঙ্গলীয় শীতে শেষ সংকেত আসে।",
+        "image_alt_bn": "কক্ষপথ থেকে তোলা মঙ্গলপৃষ্ঠে স্পিরিটের ছবি, তার চাকার দাগ ও ছায়া।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5.5266,
+          -1.9462
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-opportunity",
+        "name": "Opportunity rover",
+        "mission": "Mars Exploration Rover — Opportunity",
+        "body": "Mars",
+        "lat": -1.9462,
+        "lon": -5.5266,
+        "left_behind": 2004,
+        "last_contact": "2018-06-10",
+        "last_contact_note": "No signal returned after a planet-wide dust storm.",
+        "why_left": "A planet-wide dust storm darkened Opportunity's solar panels in June 2018. The rover never answered the final wake-up attempts; it remains in Perseverance Valley on Endeavour's rim.",
+        "science_enabled": "Opportunity found hematite 'blueberries', clay minerals and evidence of ancient water, then drove a marathon-class 45 km across Meridiani Planum.",
+        "image": "assets/images/opportunity.jpg",
+        "image_credit": "NASA / JPL-Caltech / Cornell University / Arizona State University",
+        "source_url": "https://science.nasa.gov/mission/mer-opportunity/",
+        "image_alt": "Opportunity self-portrait on the rim of Endeavour Crater.",
+        "name_bn": "অপরচুনিটি রোভার",
+        "mission_bn": "মার্স এক্সপ্লোরেশন রোভার — অপরচুনিটি",
+        "why_left_bn": "২০১৮ সালের জুনে গ্রহব্যাপী ধুলোঝড় অপরচুনিটির সৌর প্যানেল অন্ধকার করে দেয়। শেষ জাগানোর বার্তাগুলোর উত্তর আসেনি; রোভারটি এন্ডেভার ক্রেটারের প্রান্তে থেকে গেছে।",
+        "science_enabled_bn": "অপরচুনিটি হেমাটাইটের ‘নীল জাম’, কাদামাটি ও প্রাচীন পানির প্রমাণ খুঁজে পায়; এরপর মেরিডিয়ানি প্লানিতিয়ায় ৪৫ কিমি পথ চলে।",
+        "last_contact_note_bn": "গ্রহব্যাপী ধুলোঝড়ের পর আর সংকেত আসেনি।",
+        "image_alt_bn": "এন্ডেভার ক্রেটারের প্রান্তে অপরচুনিটির সেলফি।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -125.75,
+          68.2188
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-phoenix",
+        "name": "Phoenix lander",
+        "mission": "Phoenix",
+        "body": "Mars",
+        "lat": 68.2188,
+        "lon": -125.75,
+        "left_behind": 2008,
+        "last_contact": "2008-11-02",
+        "last_contact_note": "Solar power failed as the polar winter began.",
+        "why_left": "Phoenix landed in the Martian arctic, confirmed water ice beneath its footpads and ran out of solar power as winter darkness arrived. It was never designed to survive the polar night.",
+        "science_enabled": "The lander dug into ice-rich soil, measured the atmosphere and photographed frost and dust, showing that the Martian arctic is a chemically active place.",
+        "image": "assets/images/phoenix.jpg",
+        "image_credit": "NASA / JPL-Caltech / University of Arizona / Texas A&M University",
+        "source_url": "https://science.nasa.gov/mission/phoenix/",
+        "image_alt": "Vertical view of the Phoenix lander and its solar arrays on the Martian arctic plain.",
+        "name_bn": "ফিনিক্স ল্যান্ডার",
+        "mission_bn": "ফিনিক্স",
+        "why_left_bn": "ফিনিক্স মঙ্গলের সুমেরুতে নেমে পায়ের নিচে বরফের পানি নিশ্চিত করে। শীতের অন্ধকারে সৌরশক্তি ফুরিয়ে এটি নীরব হয়; মেরু রাত পার করার জন্য এটি তৈরি ছিল না।",
+        "science_enabled_bn": "ফিনিক্স বরফময় মাটি খুঁড়ে, বায়ুমণ্ডল মাপে এবং তুষার ও ধুলোর ছবি তোলে—দেখায় মঙ্গলের সুমেরু রাসায়নিকভাবে সক্রিয়।",
+        "last_contact_note_bn": "সুমেরুর শীতে সৌরশক্তি ফুরিয়ে যায়।",
+        "image_alt_bn": "মঙ্গলের সুমেরু সমতলে ফিনিক্স ল্যান্ডার ও তার সৌর প্যানেলের ওপর থেকে তোলা ছবি।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          135.6234,
+          4.5024
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-insight",
+        "name": "InSight lander",
+        "mission": "InSight",
+        "body": "Mars",
+        "lat": 4.5024,
+        "lon": 135.6234,
+        "left_behind": 2018,
+        "last_contact": "2022-12-15",
+        "last_contact_note": "Dust-covered solar panels could no longer power the lander.",
+        "why_left": "Dust on InSight's solar arrays starved the lander of power. After four years of listening to Mars, it went silent in Elysium Planitia in December 2022.",
+        "science_enabled": "InSight's seismometer detected more than 1,300 marsquakes, measured the planet's rotation and revealed the layered interior of Mars — the first seismic look at another planet's core.",
+        "image": "assets/images/insight.jpg",
+        "image_credit": "NASA / JPL-Caltech",
+        "source_url": "https://science.nasa.gov/mission/insight/",
+        "image_alt": "InSight's first selfie, showing the lander and solar arrays on Elysium Planitia.",
+        "name_bn": "ইনসাইট ল্যান্ডার",
+        "mission_bn": "ইনসাইট",
+        "why_left_bn": "ইনসাইটের সৌর প্যানেলে ধুলো জমে বিদ্যুৎ ফুরিয়ে যায়। চার বছর মঙ্গলের কম্পন শোনার পর ২০২২ সালের ডিসেম্বরে এটি ইলিসিয়াম প্লানিতিয়ায় নীরব হয়ে যায়।",
+        "science_enabled_bn": "ইনসাইটের ভূমিকম্পমাপক ১,৩০০-এর বেশি মঙ্গলকম্প শনাক্ত করে, গ্রহের ঘূর্ণন মাপে এবং মঙ্গলের স্তরভেদী অভ্যন্তর উন্মোচন করে—অন্য গ্রহের কেন্দ্রের প্রথম ভূকম্পন-পরীক্ষা।",
+        "last_contact_note_bn": "ধুলোয় ঢাকা সৌর প্যানেল বিদ্যুৎ দিতে ব্যর্থ হয়।",
+        "image_alt_bn": "ইলিসিয়াম প্লানিতিয়ায় ইনসাইট ল্যান্ডার ও সৌর প্যানেলের প্রথম সেলফি।"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          77.4508,
+          18.4447
+        ]
+      },
+      "properties": {
+        "dataset_id": "mars-ingenuity",
+        "name": "Ingenuity helicopter",
+        "mission": "Mars 2020 — Ingenuity",
+        "body": "Mars",
+        "lat": 18.4447,
+        "lon": 77.4508,
+        "left_behind": 2024,
+        "last_contact": "2024-01-25",
+        "last_contact_note": "Mission ended after rotor damage on its 72nd flight.",
+        "why_left": "Ingenuity was a technology demonstration that became a scout. After 72 flights, its rotor blades were damaged on landing in January 2024; the helicopter stays in Jezero Crater.",
+        "science_enabled": "Ingenuity proved powered flight is possible on Mars and scouted terrain for Perseverance. Its final resting place is a landmark for future aerial explorers.",
+        "image": "assets/images/ingenuity.jpg",
+        "image_credit": "NASA / JPL-Caltech / MSSS",
+        "source_url": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+        "image_alt": "Perseverance's selfie with the Ingenuity helicopter on the Martian surface.",
+        "name_bn": "ইনজেনুইটি হেলিকপ্টার",
+        "mission_bn": "মার্স ২০২০ — ইনজেনুইটি",
+        "why_left_bn": "ইনজেনুইটি পাঁচবার ওড়ার প্রযুক্তি-প্রদর্শন হিসেবে শুরু হয়েছিল, কিন্তু ৭২টি ফ্লাইট করে। ২০২৪ সালের জানুয়ারিতে অবতরণে রোটর ক্ষতিগ্রস্ত হলে হেলিকপ্টারটি জেজেরো ক্রেটারে থেকে যায়।",
+        "science_enabled_bn": "ইনজেনুইটি প্রমাণ করে মঙ্গলে ইঞ্জিনচালিত উড়ান সম্ভব এবং পার্সিভিয়ারেন্সের জন্য পথ দেখায়। এর শেষ অবস্থান ভবিষ্যতের আকাশযানদের জন্য এক ল্যান্ডমার্ক।",
+        "last_contact_note_bn": "রোটর ক্ষতিগ্রস্ত হওয়ার পর মিশন সমাপ্ত ঘোষণা করা হয়।",
+        "image_alt_bn": "মঙ্গলপৃষ্ঠে ইনজেনুইটি হেলিকপ্টারের সঙ্গে পার্সিভিয়ারেন্সের সেলফি।"
+      }
+    }
+  ]
+}
