@@ -1,15 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NASA MER-A Spirit - Mission Control Simulation</title>
-  <link rel="stylesheet" href="style.css" />
-  
-  <!-- Socket.IO Client CDN -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="A scrollytelling planetary atlas and 3D mission control simulation of NASA hardware on the Moon and Mars.">
+  <title>Left Behind — NASA Space Relics Atlas & Mission Simulator</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="vendor/maplibre-gl.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- MapLibre & PMTiles -->
+  <script defer src="vendor/maplibre-gl.js"></script>
+  <script defer src="vendor/pmtiles.js"></script>
+
+  <!-- Socket.IO Client -->
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 
-  <!-- Import Map for Three.js ES Modules -->
+  <!-- Three.js ES Modules -->
   <script type="importmap">
     {
       "imports": {
@@ -20,283 +28,511 @@
   </script>
 </head>
 <body>
-  <!-- Animated Space Background Canvas -->
-  <canvas id="bg-canvas"></canvas>
+  <a class="skip-link" href="#story" data-i18n="skip">Skip to the story</a>
 
-  <div class="scanline"></div>
-  <div id="app">
-    <!-- Header HUD -->
-    <header class="hud-header">
-      <div class="hud-brand">
-        <span class="nasa-logo">NASA</span>
-        <div class="brand-text">
-          <span class="mission-title">SPIRIT (MER-A) OPERATOR</span>
-          <span class="location-tag">GUSEV CRATER // -14.5684° S, 175.4726° E</span>
+  <div class="app">
+    <!-- Unified Top Bar -->
+    <header class="topbar">
+      <a class="brand" href="#story" aria-label="Left Behind — go to the story">
+        <svg class="brand-mark" viewBox="0 0 44 44" aria-hidden="true" focusable="false">
+          <circle cx="22" cy="22" r="8.5" fill="currentColor"/>
+          <ellipse cx="22" cy="22" rx="19" ry="7.5" transform="rotate(-24 22 22)" fill="none" stroke="currentColor" stroke-width="1.35" opacity=".62"/>
+          <circle cx="36.4" cy="12.4" r="2.2" fill="#ff8a5b"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-kicker" data-i18n="brand.kicker">Planetary Atlas & Telemetry</span>
+          <span class="brand-title" data-i18n="brand.title">Left Behind</span>
+        </span>
+      </a>
+
+      <div class="topbar-actions">
+        <!-- Primary View Switcher: Atlas vs 3D Simulator -->
+        <div class="segmented mode-switch" role="group" aria-label="Choose view mode">
+          <button class="segmented-btn is-active" type="button" data-mode="atlas" aria-pressed="true">
+            <span data-i18n="mode.atlas">Atlas</span>
+          </button>
+          <button class="segmented-btn" type="button" data-mode="simulator" aria-pressed="false">
+            <span class="world-dot world-dot--sim" aria-hidden="true"></span>
+            <span data-i18n="mode.sim">3D Mission Sim</span>
+          </button>
         </div>
-      </div>
-      <div class="hud-status">
-        <span id="stageText" class="hud-badge stage-badge">Mission Control</span>
-        <span id="motorTemp" class="hud-badge temp-badge">🌡️ Motor: 22.0°C</span>
-        <span id="solarOutput" class="hud-badge solar-badge">☀️ Solar: 140W</span>
-        <span id="energy" class="hud-badge energy-badge">⚡ Energy: 100%</span>
+
+        <!-- World Switcher (Visible in Atlas Mode) -->
+        <div class="segmented world-switch" id="worldSwitchGroup" role="group" aria-label="Choose a world" data-i18n-aria="body.group">
+          <button class="segmented-btn is-active" type="button" data-body="moon" aria-pressed="true">
+            <span class="world-dot world-dot--moon" aria-hidden="true"></span>
+            <span data-i18n="body.moon">Moon</span>
+          </button>
+          <button class="segmented-btn" type="button" data-body="mars" aria-pressed="false">
+            <span class="world-dot world-dot--mars" aria-hidden="true"></span>
+            <span data-i18n="body.mars">Mars</span>
+          </button>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="segmented lang-switch" role="group" aria-label="Choose language" data-i18n-aria="lang.group">
+          <button class="segmented-btn is-active" type="button" data-lang="en" aria-pressed="true" lang="en">EN</button>
+          <button class="segmented-btn" type="button" data-lang="bn" aria-pressed="false" lang="bn">বাংলা</button>
+        </div>
       </div>
     </header>
 
-    <!-- Main Viewport Container -->
-    <main class="viewport">
+    <!-- =========================================================
+         VIEW 1: SCROLLYTELLING PLANETARY ATLAS
+         ========================================================= -->
+    <main class="layout" id="atlasView">
+      <section class="map-stage" aria-labelledby="mapTitle" aria-describedby="mapInstructions">
+        <div id="map" class="map-canvas"></div>
+        <div class="map-shade" aria-hidden="true"></div>
 
-      <!-- 1. Home Screen -->
-      <section id="homeScreen" class="screen active">
-        <div class="card panel center-content glow-box">
-          <div class="status-indicator online">SYSTEM READY</div>
-          <h2>NASA Space Relics Archive</h2>
-          <p>Initialize mission telemetry to restore operations for the MER-A Spirit Rover, currently deployed at Gusev Crater, Mars.</p>
-          <button data-action="startMission" class="btn primary glowing-btn">Initialize Mission Sequence</button>
+        <div class="map-topline">
+          <div class="map-heading">
+            <p class="map-eyebrow" data-i18n="map.eyebrow">Now charting</p>
+            <h2 id="mapTitle">Moon</h2>
+            <p class="map-summary" id="mapSummary"></p>
+          </div>
+          <p class="basemap-credit">
+            <a id="basemapLink" href="https://trek.nasa.gov/moon/" target="_blank" rel="noopener" data-i18n="map.creditMoon">Basemap: NASA Moon Trek / LRO WAC</a>
+          </p>
         </div>
+
+        <div class="map-controls" role="group" aria-label="Map controls">
+          <button class="map-control" id="zoomIn" type="button" aria-label="Zoom in" data-i18n-aria="map.zoomIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+          <button class="map-control" id="zoomOut" type="button" aria-label="Zoom out" data-i18n-aria="map.zoomOut">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>
+          </button>
+          <button class="map-control" id="resetView" type="button" aria-label="Reset the map view" data-i18n-aria="map.reset">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 15v5h-5M4 4l6 6M20 20l-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="map-empty" id="mapEmpty" hidden>
+          <p class="map-empty-title" data-i18n="map.emptyTitle">No sites yet</p>
+          <p class="map-empty-body" data-i18n="map.emptyBody">Move the timeline forward or switch worlds.</p>
+        </div>
+
+        <div class="map-loading" id="mapLoading" role="status" aria-live="polite">
+          <span class="loading-orbit" aria-hidden="true"></span>
+          <span data-i18n="map.loading">Loading the local planetary basemap…</span>
+        </div>
+
+        <div class="map-error" id="mapError" role="alert" hidden>
+          <p class="map-error-title" data-i18n="map.errorTitle">The map could not load</p>
+          <p class="map-error-body" data-i18n="map.errorBody">The stories are still available from the site index below.</p>
+        </div>
+
+        <div class="timeline" aria-labelledby="timelineLabel">
+          <div class="timeline-head">
+            <label id="timelineLabel" for="yearRange" data-i18n="timeline.label">Show objects left behind by</label>
+            <output id="yearOutput" for="yearRange">2024</output>
+          </div>
+          <input type="range" id="yearRange" min="1966" max="2024" value="2024" step="1" aria-describedby="timelineNote">
+          <div class="timeline-scale" aria-hidden="true">
+            <span>1966</span>
+            <span class="timeline-scale-mid">1995</span>
+            <span>2024</span>
+          </div>
+          <div class="timeline-foot">
+            <p class="visible-count" id="visibleCount" aria-live="polite"></p>
+            <p class="timeline-note" id="timelineNote" data-i18n="timeline.note">Drag or use the arrow keys. The year is when the hardware was left behind.</p>
+          </div>
+        </div>
+
+        <p class="map-instructions" id="mapInstructions" data-i18n="map.instructions">Use the map buttons or Tab to the site markers. Press Enter on a marker to open its story.</p>
       </section>
 
-      <!-- 2. Solar System Screen -->
-      <section id="solarScreen" class="screen">
-        <div class="card panel">
-          <h2>Solar System Navigation</h2>
-          <p>Select planetary target to track orbital parameters and telemetry status.</p>
-          
-          <div class="assembly-layout">
-            <div id="solar3D" class="webgl-container"></div>
+      <section class="story" id="story" tabindex="0" aria-label="The story">
+        <div class="story-inner">
+          <header class="hero" id="top">
+            <p class="eyebrow" data-i18n="story.eyebrow">Two worlds, one long goodbye</p>
+            <h1 data-i18n="story.title">Some missions never come home.</h1>
+            <p class="hero-lede" data-i18n="story.lede">NASA left descent stages, landers, rovers, experiments and an aircraft on two worlds. This atlas follows the hardware that stayed — and the science it still makes possible.</p>
+            <p class="hero-meta" id="heroMeta"></p>
+            <div class="hero-actions">
+              <a class="scroll-cue" href="#chapter-1">
+                <span data-i18n="story.scroll">Scroll to begin</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M6 14l6 6 6-6"/></svg>
+              </a>
+              <button class="sim-launch-pill" type="button" data-launch-sim="mars-spirit">
+                <span>🚀</span>
+                <span data-i18n="story.launchSim">Operate MER-A Spirit in 3D</span>
+              </button>
+            </div>
+          </header>
 
-            <div class="assembly-panel">
-              <h3>Planetary Target</h3>
-              <div class="system-list">
-                <button onclick="window.focusSolarTarget('sun')" class="btn system">☀️ Sun</button>
-                <button onclick="window.focusSolarTarget('earth')" class="btn system">🌍 Earth</button>
-                <button onclick="window.focusSolarTarget('mars')" class="btn system activated">🔴 Mars (Targeted)</button>
-                <button onclick="window.focusSolarTarget('jupiter')" class="btn system">🟠 Jupiter</button>
-                <button onclick="window.focusSolarTarget('saturn')" class="btn system">🪐 Saturn</button>
+          <div class="chapter-stack" id="chapters">
+            <article class="chapter" id="chapter-1" data-chapter="1" data-body="moon" data-focus="moon-apollo-11-eagle" data-zoom="4.4">
+              <div class="chapter-topline">
+                <span class="chapter-number" aria-hidden="true">01</span>
+                <span class="chapter-kicker" data-i18n="chapter.1.kicker">01 / Tranquility Base</span>
               </div>
-              <button data-action="openMars" class="btn primary glowing-btn">Target: Mars (Gusev Crater)</button>
+              <h2 data-i18n="chapter.1.title">One small step, one descent stage</h2>
+              <p data-i18n="chapter.1.body">Apollo 11's Eagle touched down with only seconds of hover fuel to spare. The ascent stage had to be light enough to lift the crew home, so the descent stage, the Laser Ranging Retroreflector and the early experiments stayed in the dust.</p>
+              <button class="chapter-link" type="button" data-open="moon-apollo-11-eagle">
+                <span data-i18n="chapter.open">Open this site's story</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </article>
+
+            <article class="chapter" id="chapter-2" data-chapter="2" data-body="moon" data-focus="moon-apollo-15-falcon" data-zoom="4.15">
+              <div class="chapter-topline">
+                <span class="chapter-number" aria-hidden="true">02</span>
+                <span class="chapter-kicker" data-i18n="chapter.2.kicker">02 / The rover years</span>
+              </div>
+              <h2 data-i18n="chapter.2.title">A field site with parked machines</h2>
+              <p data-i18n="chapter.2.body">Apollo 15, 16 and 17 carried a lunar rover and a longer scientific payload. Each crew left a descent stage, a rover and an ALSEP behind. The Moon became a museum of working hardware.</p>
+              <button class="chapter-link" type="button" data-open="moon-apollo-15-falcon">
+                <span data-i18n="chapter.open">Open this site's story</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </article>
+
+            <article class="chapter" id="chapter-3" data-chapter="3" data-body="mars" data-focus="mars-viking-1" data-zoom="4.1">
+              <div class="chapter-topline">
+                <span class="chapter-number" aria-hidden="true">03</span>
+                <span class="chapter-kicker" data-i18n="chapter.3.kicker">03 / First robots on Mars</span>
+              </div>
+              <h2 data-i18n="chapter.3.title">Landers that never came home</h2>
+              <p data-i18n="chapter.3.body">Viking 1 and 2 arrived in 1976 and kept working for years. In 1997, Pathfinder bounced to a stop and released Sojourner. Neither mission had a return trip; both changed how we read the Martian surface.</p>
+              <button class="chapter-link" type="button" data-open="mars-viking-1">
+                <span data-i18n="chapter.open">Open this site's story</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </article>
+
+            <article class="chapter" id="chapter-4" data-chapter="4" data-body="mars" data-focus="mars-spirit" data-zoom="4.15">
+              <div class="chapter-topline">
+                <span class="chapter-number" aria-hidden="true">04</span>
+                <span class="chapter-kicker" data-i18n="chapter.4.kicker">04 / The long goodbye</span>
+              </div>
+              <h2 data-i18n="chapter.4.title">Built for months, remembered for decades</h2>
+              <p data-i18n="chapter.4.body">Spirit, Opportunity, Phoenix and InSight outlived their planned missions, then failed for very Martian reasons: dust, cold and winter light. Their last signals mark the end of a mission, not the end of their usefulness.</p>
+              <div class="chapter-actions">
+                <button class="chapter-link" type="button" data-open="mars-spirit">
+                  <span data-i18n="chapter.open">Open this site's story</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+                <button class="chapter-link chapter-link--sim" type="button" data-launch-sim="mars-spirit">
+                  <span data-i18n="chapter.sim">Simulate Spirit Rover (3D)</span>
+                </button>
+              </div>
+            </article>
+
+            <article class="chapter" id="chapter-5" data-chapter="5" data-body="mars" data-focus="mars-ingenuity" data-zoom="4.4">
+              <div class="chapter-topline">
+                <span class="chapter-number" aria-hidden="true">05</span>
+                <span class="chapter-kicker" data-i18n="chapter.5.kicker">05 / Ingenuity</span>
+              </div>
+              <h2 data-i18n="chapter.5.title">Seventy-two flights, one last field</h2>
+              <p data-i18n="chapter.5.body">Ingenuity was meant to fly five times. It made 72 flights before a hard landing damaged its rotors in January 2024. The helicopter remains in Jezero Crater, the first aircraft left behind on another planet.</p>
+              <button class="chapter-link" type="button" data-open="mars-ingenuity">
+                <span data-i18n="chapter.open">Open this site's story</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+            </article>
+          </div>
+
+          <section class="coda" aria-labelledby="codaTitle">
+            <p class="eyebrow" data-i18n="coda.kicker">Coda</p>
+            <h2 id="codaTitle" data-i18n="coda.title">What remains is not just junk</h2>
+            <p data-i18n="coda.body">A retroreflector still answers lasers from Earth. A seismometer's data still describes marsquakes. Rover tracks and descent stages mark the places where our maps of two worlds became ground truth.</p>
+            <button class="text-button" id="resetTimeline" type="button" data-i18n="timeline.all">All objects</button>
+          </section>
+
+          <section class="site-index" aria-labelledby="indexTitle">
+            <p class="eyebrow" data-i18n="index.eyebrow">The full inventory</p>
+            <h2 id="indexTitle" data-i18n="index.title">Every site in the atlas</h2>
+            <p data-i18n="index.body">These are the curated objects, grouped by world. Selecting one opens its story and switches to the correct map.</p>
+            <div id="siteIndex" class="index-groups"></div>
+          </section>
+
+          <footer class="story-footer">
+            <p data-i18n="footer.disclaimer">An independent educational project. It is not affiliated with or endorsed by NASA. NASA imagery and mission sources are credited in every story.</p>
+            <p data-i18n="footer.built">Built with MapLibre GL JS, PMTiles, Three.js, and Flask-SocketIO.</p>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================================================
+         VIEW 2: 3D MISSION CONTROL SIMULATOR (MER-A SPIRIT)
+         ========================================================= -->
+    <main class="sim-workspace" id="simulatorView" hidden>
+      <canvas id="bg-canvas"></canvas>
+      <div class="sim-container">
+        <!-- Telemetry HUD Header -->
+        <header class="hud-header">
+          <div class="hud-brand">
+            <button type="button" class="btn-back-atlas" id="backToAtlasBtn" data-i18n="sim.backToAtlas">← Atlas</button>
+            <span class="nasa-logo">NASA</span>
+            <div class="brand-text">
+              <span class="mission-title">SPIRIT (MER-A) OPERATOR</span>
+              <span class="location-tag">GUSEV CRATER // -14.5684° S, 175.4726° E</span>
             </div>
           </div>
-        </div>
-      </section>
+          <div class="hud-status">
+            <span id="stageText" class="hud-badge stage-badge">Mission Control</span>
+            <span id="motorTemp" class="hud-badge temp-badge">🌡️ Motor: 22.0°C</span>
+            <span id="solarOutput" class="hud-badge solar-badge">☀️ Solar: 140W</span>
+            <span id="energy" class="hud-badge energy-badge">⚡ Energy: 100%</span>
+          </div>
+        </header>
 
-      <!-- 3. Mars Target Selection Screen -->
-      <section id="marsScreen" class="screen">
-        <div class="card panel">
-          <h2>Mars Landing Zone Confirmed</h2>
-          <p>Orbital insertion lock established: Gusev Crater (-14.5684° S, 175.4726° E).</p>
-          <button data-action="openBriefing" class="btn primary">Proceed to Mission Briefing</button>
-        </div>
-      </section>
-
-      <!-- 4. Briefing Screen -->
-      <section id="briefingScreen" class="screen">
-        <div class="card panel">
-          <h2>MER-A Primary Directives</h2>
-          <ul class="directive-list">
-            <li><span>01</span> Integrate core subsystem modules in assembly bay.</li>
-            <li><span>02</span> Execute Trans-Mars Injection via Delta II launch.</li>
-            <li><span>03</span> Analyze high-value geological targets using energy reserves.</li>
-          </ul>
-          <button data-action="openAssembly" class="btn primary">Enter Subsystem Assembly Bay</button>
-        </div>
-      </section>
-
-      <!-- 5. Subsystem Assembly Screen -->
-      <section id="assemblyScreen" class="screen">
-        <div class="assembly-layout">
-          <div id="spirit3D" class="webgl-container">
-            <div class="rover-loading">Initializing 3D Telemetry...</div>
-            <div class="hud-overlay-top">
-              <span id="roverSpeedHUD">SPEED: 0.0 cm/s</span>
-              <span id="dustOpacityHUD">DUST OPACITY: LOW</span>
+        <!-- Simulator Screens -->
+        <div class="viewport">
+          <!-- 1. Home Screen -->
+          <section id="homeScreen" class="screen active">
+            <div class="card panel center-content glow-box">
+              <div class="status-indicator online" id="serverStatusBadge">TELEMETRY READY</div>
+              <h2>NASA Space Relics — MER-A Spirit</h2>
+              <p>Initialize mission telemetry to assemble, launch, land, and operate the Spirit Rover at Gusev Crater, Mars.</p>
+              <button data-action="startMission" class="btn primary glowing-btn">Initialize Mission Sequence</button>
             </div>
+          </section>
 
-            <div class="hud-camera-selector">
-              <button onclick="window.setCameraView('orbit')" class="btn-sm">🛰️ Orbit</button>
-              <button onclick="window.setCameraView('pancam')" class="btn-sm">📷 First-Person Pancam</button>
-              <button onclick="window.setCameraView('wheel')" class="btn-sm">⚙️ Wheel Cam</button>
+          <!-- 2. Solar System Screen -->
+          <section id="solarScreen" class="screen">
+            <div class="card panel">
+              <h2>Solar System Navigation</h2>
+              <p>Select planetary target to track orbital parameters and telemetry status.</p>
+              <div class="assembly-layout">
+                <div id="solar3D" class="webgl-container"></div>
+                <div class="assembly-panel">
+                  <h3>Planetary Target</h3>
+                  <div class="system-list">
+                    <button onclick="window.focusSolarTarget('sun')" class="btn system">☀️ Sun</button>
+                    <button onclick="window.focusSolarTarget('earth')" class="btn system">🌍 Earth</button>
+                    <button onclick="window.focusSolarTarget('mars')" class="btn system activated">🔴 Mars (Targeted)</button>
+                    <button onclick="window.focusSolarTarget('jupiter')" class="btn system">🟠 Jupiter</button>
+                    <button onclick="window.focusSolarTarget('saturn')" class="btn system">🪐 Saturn</button>
+                  </div>
+                  <button data-action="openMars" class="btn primary glowing-btn">Target: Mars (Gusev Crater)</button>
+                </div>
+              </div>
             </div>
+          </section>
 
-            <button data-action="resetCamera" class="btn-icon camera-reset" title="Reset Camera">🎥 Reset View</button>
-          </div>
-
-          <div class="card panel assembly-panel">
-            <h3>Subsystem Integration</h3>
-            <p id="buildMessage" class="status-msg">SYSTEMS OFFLINE</p>
-
-            <div class="system-list">
-              <button data-system="computer" class="btn system">Flight Computer</button>
-              <button data-system="power" class="btn system">Solar Panels (Power)</button>
-              <button data-system="mobility" class="btn system">Rocker-Bogie Mobility</button>
-              <button data-system="communication" class="btn system">High-Gain Antenna</button>
-              <button data-system="science" class="btn system">Pancam & Science Suite</button>
+          <!-- 3. Mars Target Selection Screen -->
+          <section id="marsScreen" class="screen">
+            <div class="card panel center-content">
+              <h2>Mars Landing Zone Confirmed</h2>
+              <p>Orbital insertion lock established: Gusev Crater (-14.5684° S, 175.4726° E).</p>
+              <button data-action="openBriefing" class="btn primary">Proceed to Mission Briefing</button>
             </div>
+          </section>
 
-            <button id="launchButton" data-action="launchMission" class="btn success hidden glowing-btn">Initiate Launch Sequence</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6. Launch Sequence Screen -->
-      <section id="launchScreen" class="screen">
-        <div class="card panel center-content">
-          <h2>Delta II Launch Dynamics</h2>
-          <div id="countdown" class="countdown-display">3</div>
-          <p id="launchMessage" class="status-msg">Preparing ignition...</p>
-          
-          <div class="grid-2 mt-2" style="width: 100%; max-width: 500px;">
-            <div class="hud-badge">🚀 Velocity: <span id="launchVelocity">0</span> m/s</div>
-            <div class="hud-badge">📏 Altitude: <span id="launchAltitude">0</span> km</div>
-            <div class="hud-badge">⚡ Acceleration: <span id="launchGForce">1.0</span> G</div>
-            <div class="hud-badge">🔥 Thrust: <span id="launchThrust">0</span> kN</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6B. Interplanetary Space Flight Transit Screen -->
-      <section id="transitScreen" class="screen">
-        <div class="card panel center-content">
-          <h2>Trans-Mars Injection Cruise Phase</h2>
-          <p id="transitStatusMsg" class="status-msg">Spacecraft in cruise configuration. Trajectory locked for Mars arrival.</p>
-          
-          <div class="assembly-layout" style="height: 380px; width: 100%;">
-            <div id="transit3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
-          </div>
-
-          <div class="grid-2 mt-2" style="width: 100%; max-width: 600px;">
-            <div class="hud-badge">🛰️ Velocity: <span id="cruiseVelocity">21.4</span> km/s</div>
-            <div class="hud-badge">🌌 Trajectory: <span id="cruiseTrajectory">HOHMANN TRANSFER</span></div>
-            <div class="hud-badge">📏 Distance to Target: <span id="distToMars">225.4</span>M km</div>
-            <div class="hud-badge">⏱️ Mission Elapsed: <span id="cruiseTime">DAY 0 / 206</span></div>
-          </div>
-
-          <button id="skipTransitBtn" data-action="skipTransit" class="btn primary mt-2">Accelerate to Mars Entry (EDL)</button>
-        </div>
-      </section>
-
-      <!-- 6C. Mars Landing Sequence (EDL) Screen -->
-      <section id="landingScreen" class="screen">
-        <div class="card panel center-content">
-          <h2>Mars Entry, Descent & Landing (EDL)</h2>
-          <p id="landingMessage" class="status-msg">Approaching Martian Atmosphere...</p>
-          
-          <div class="assembly-layout" style="height: 360px; width: 100%;">
-            <div id="landing3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
-          </div>
-
-          <div class="grid-2 mt-2" style="width: 100%; max-width: 600px;">
-            <div class="hud-badge">🛬 Velocity: <span id="landingVelocity">5500</span> m/s</div>
-            <div class="hud-badge">📉 Altitude: <span id="landingAltitude">125</span> km</div>
-            <div class="hud-badge">🌡️ Heat Shield: <span id="heatshieldTemp">20</span> °C</div>
-            <div class="hud-badge">🪂 Parachute: <span id="parachuteStatus">STOWED</span></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 7. Surface Exploration Target Selection Screen -->
-      <section id="exploreScreen" class="screen">
-        <div class="card panel">
-          <h2>Surface Exploration - Target Acquisition</h2>
-          <p>Rover deployed on Martian surface. Select scientific geological target:</p>
-
-          <div class="assembly-layout" style="height: 340px; margin-bottom: 16px;">
-            <!-- Interactive 3D Surface Target Viewport -->
-            <div id="surface3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
-          </div>
-
-          <div class="grid-3">
-            <button data-target="rock" class="btn target">🪨 Basaltic Rock (Humphrey)</button>
-            <button data-target="hill" class="btn target">⛰️ Columbia Hills Bedrock</button>
-            <button data-target="soil" class="btn target">💨 Hydrothermal Silica (Home Plate)</button>
-          </div>
-          <p id="targetMessage" class="status-msg mt-1"></p>
-        </div>
-      </section>
-
-      <!-- 8. Tactical Operations Decision Screen -->
-      <section id="decisionScreen" class="screen">
-        <div class="card panel">
-          <h2>Tactical Command</h2>
-          <p>Select action to perform on current target:</p>
-          <div class="grid-3">
-            <button data-mission-action="analyze" class="btn primary">Microscopic Analysis (-25% Power)</button>
-            <button data-mission-action="drive" class="btn primary">Traverse Target Site (-15% Power)</button>
-            <button data-mission-action="transmit" class="btn primary">Transmit High-Res Pancam (-30% Power)</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- 9. Telemetry & Science Data Analysis Screen -->
-      <section id="scienceScreen" class="screen">
-        <div class="card panel">
-          <h2>Science Data Processing (Live Telemetry Feed)</h2>
-          <div class="telemetry-box">
-            <div class="telemetry-row">
-              <label>Spectrometer Calibration</label>
-              <span id="val1" class="bar-val">0%</span>
+          <!-- 4. Briefing Screen -->
+          <section id="briefingScreen" class="screen">
+            <div class="card panel">
+              <h2>MER-A Primary Directives</h2>
+              <ul class="directive-list">
+                <li><span>01</span> Integrate core subsystem modules in the 3D assembly bay.</li>
+                <li><span>02</span> Execute Trans-Mars Injection via Delta II launch dynamics.</li>
+                <li><span>03</span> Navigate Mars Entry, Descent & Landing (EDL) and analyze surface geology.</li>
+              </ul>
+              <button data-action="openAssembly" class="btn primary">Enter Subsystem Assembly Bay</button>
             </div>
-            <div class="bar-bg"><div id="bar1" class="bar-fill"></div></div>
+          </section>
 
-            <div class="telemetry-row mt-1">
-              <label>Thermal Emission Data</label>
-              <span id="val2" class="bar-val">0%</span>
+          <!-- 5. Subsystem Assembly Screen -->
+          <section id="assemblyScreen" class="screen">
+            <div class="assembly-layout">
+              <div id="spirit3D" class="webgl-container">
+                <div class="rover-loading">Initializing 3D Telemetry...</div>
+                <div class="hud-overlay-top">
+                  <span id="roverSpeedHUD">WASD DRIVE ENABLED</span>
+                  <span id="dustOpacityHUD">DUST OPACITY: LOW</span>
+                </div>
+                <div class="hud-camera-selector">
+                  <button onclick="window.setCameraView('orbit')" class="btn-sm">🛰️ Orbit</button>
+                  <button onclick="window.setCameraView('pancam')" class="btn-sm">📷 Pancam</button>
+                  <button onclick="window.setCameraView('wheel')" class="btn-sm">⚙️ Wheel</button>
+                </div>
+                <button data-action="resetCamera" class="btn-icon camera-reset" title="Reset Camera">🎥 Reset</button>
+              </div>
+
+              <div class="card panel assembly-panel">
+                <h3>Subsystem Integration</h3>
+                <p id="buildMessage" class="status-msg">SYSTEMS OFFLINE</p>
+                <div class="system-list">
+                  <button data-system="computer" class="btn system">Flight Computer</button>
+                  <button data-system="power" class="btn system">Solar Panels (Power)</button>
+                  <button data-system="mobility" class="btn system">Rocker-Bogie Mobility</button>
+                  <button data-system="communication" class="btn system">High-Gain Antenna</button>
+                  <button data-system="science" class="btn system">Pancam & Science Suite</button>
+                </div>
+                <button id="launchButton" data-action="launchMission" class="btn success hidden glowing-btn">Initiate Launch Sequence</button>
+              </div>
             </div>
-            <div class="bar-bg"><div id="bar2" class="bar-fill"></div></div>
+          </section>
 
-            <div class="telemetry-row mt-1">
-              <label>Deep Space Network Telemetry</label>
-              <span id="val3" class="bar-val">0%</span>
+          <!-- 6. Launch Sequence Screen -->
+          <section id="launchScreen" class="screen">
+            <div class="card panel center-content">
+              <h2>Delta II Launch Dynamics</h2>
+              <div id="countdown" class="countdown-display">3</div>
+              <p id="launchMessage" class="status-msg">Preparing ignition...</p>
+              <div class="grid-2 mt-2" style="width: 100%; max-width: 500px;">
+                <div class="hud-badge">🚀 Velocity: <span id="launchVelocity">0</span> m/s</div>
+                <div class="hud-badge">📏 Altitude: <span id="launchAltitude">0</span> km</div>
+                <div class="hud-badge">⚡ Acceleration: <span id="launchGForce">1.0</span> G</div>
+                <div class="hud-badge">🔥 Thrust: <span id="launchThrust">0</span> kN</div>
+              </div>
             </div>
-            <div class="bar-bg"><div id="bar3" class="bar-fill"></div></div>
-          </div>
+          </section>
 
-          <!-- Verified Discovery Output Box -->
-          <div id="verifiedDiscoveryCard" class="discovery-card mt-2 hidden">
-            <h3 id="discoveryTitle" class="text-cyan">NASA Verified Discovery</h3>
-            <div id="discoveryBody" class="mt-1"></div>
-            <button id="viewArchivePhotoBtn" class="btn accent mt-1">📷 Inspect Verified NASA Image</button>
-          </div>
+          <!-- 6B. Interplanetary Space Flight Transit Screen -->
+          <section id="transitScreen" class="screen">
+            <div class="card panel center-content">
+              <h2>Trans-Mars Injection Cruise Phase</h2>
+              <p id="transitStatusMsg" class="status-msg">Spacecraft in cruise configuration. Trajectory locked for Mars arrival.</p>
+              <div style="height: 320px; width: 100%;">
+                <div id="transit3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
+              </div>
+              <div class="grid-2 mt-2" style="width: 100%; max-width: 600px;">
+                <div class="hud-badge">🛰️ Velocity: <span id="cruiseVelocity">21.4</span> km/s</div>
+                <div class="hud-badge">🌌 Trajectory: <span id="cruiseTrajectory">HOHMANN TRANSFER</span></div>
+                <div class="hud-badge">📏 Distance: <span id="distToMars">225.4</span>M km</div>
+                <div class="hud-badge">⏱️ Elapsed: <span id="cruiseTime">DAY 0 / 206</span></div>
+              </div>
+              <button id="skipTransitBtn" data-action="skipTransit" class="btn primary mt-2">Accelerate to Mars Entry (EDL)</button>
+            </div>
+          </section>
 
-          <!-- Terminal Log -->
-          <div class="terminal-log" id="terminalLog">
-            <div>[00:00:00] Telematic downlink initialized...</div>
-          </div>
+          <!-- 6C. Mars Landing Sequence (EDL) Screen -->
+          <section id="landingScreen" class="screen">
+            <div class="card panel center-content">
+              <h2>Mars Entry, Descent & Landing (EDL)</h2>
+              <p id="landingMessage" class="status-msg">Approaching Martian Atmosphere...</p>
+              <div style="height: 300px; width: 100%;">
+                <div id="landing3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
+              </div>
+              <div class="grid-2 mt-2" style="width: 100%; max-width: 600px;">
+                <div class="hud-badge">🛬 Velocity: <span id="landingVelocity">5500</span> m/s</div>
+                <div class="hud-badge">📉 Altitude: <span id="landingAltitude">125</span> km</div>
+                <div class="hud-badge">🌡️ Heat Shield: <span id="heatshieldTemp">20</span> °C</div>
+                <div class="hud-badge">🪂 Parachute: <span id="parachuteStatus">STOWED</span></div>
+              </div>
+            </div>
+          </section>
 
-          <div class="action-row mt-2">
-            <button data-action="unlockHistory" class="btn accent">Access NASA Archives</button>
-            <button data-action="finishMission" class="btn primary">Complete Operations</button>
-          </div>
+          <!-- 7. Surface Exploration Target Selection Screen -->
+          <section id="exploreScreen" class="screen">
+            <div class="card panel">
+              <h2>Surface Exploration — Target Acquisition</h2>
+              <p>Rover deployed on Martian surface. Select scientific geological target:</p>
+              <div style="height: 300px; margin-bottom: 16px;">
+                <div id="surface3D" class="webgl-container" style="width: 100%; height: 100%;"></div>
+              </div>
+              <div class="grid-3">
+                <button data-target="rock" class="btn target">🪨 Basaltic Rock (Humphrey)</button>
+                <button data-target="hill" class="btn target">⛰️ Columbia Hills Bedrock</button>
+                <button data-target="soil" class="btn target">💨 Hydrothermal Silica (Home Plate)</button>
+              </div>
+              <p id="targetMessage" class="status-msg mt-1"></p>
+            </div>
+          </section>
+
+          <!-- 8. Tactical Operations Decision Screen -->
+          <section id="decisionScreen" class="screen">
+            <div class="card panel">
+              <h2>Tactical Command</h2>
+              <p>Select action to perform on current target:</p>
+              <div class="grid-3">
+                <button data-mission-action="analyze" class="btn primary">Microscopic Analysis (-25% Power)</button>
+                <button data-mission-action="drive" class="btn primary">Traverse Target Site (-15% Power)</button>
+                <button data-mission-action="transmit" class="btn primary">Transmit High-Res Pancam (-30% Power)</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 9. Telemetry & Science Data Analysis Screen -->
+          <section id="scienceScreen" class="screen">
+            <div class="card panel">
+              <h2>Science Data Processing (Live Telemetry Feed)</h2>
+              <div class="telemetry-box">
+                <div class="telemetry-row">
+                  <label>Spectrometer Calibration</label>
+                  <span id="val1" class="bar-val">0%</span>
+                </div>
+                <div class="bar-bg"><div id="bar1" class="bar-fill"></div></div>
+
+                <div class="telemetry-row mt-1">
+                  <label>Thermal Emission Data</label>
+                  <span id="val2" class="bar-val">0%</span>
+                </div>
+                <div class="bar-bg"><div id="bar2" class="bar-fill"></div></div>
+
+                <div class="telemetry-row mt-1">
+                  <label>Deep Space Network Telemetry</label>
+                  <span id="val3" class="bar-val">0%</span>
+                </div>
+                <div class="bar-bg"><div id="bar3" class="bar-fill"></div></div>
+              </div>
+
+              <div id="verifiedDiscoveryCard" class="discovery-card mt-2 hidden">
+                <h3 id="discoveryTitle" class="text-cyan">NASA Verified Discovery</h3>
+                <div id="discoveryBody" class="mt-1"></div>
+                <button id="viewArchivePhotoBtn" class="btn accent mt-1">📷 Inspect Verified NASA Image</button>
+              </div>
+
+              <div class="terminal-log" id="terminalLog">
+                <div>[00:00:00] Telematic downlink initialized...</div>
+              </div>
+
+              <div class="action-row mt-2">
+                <button data-action="unlockHistory" class="btn accent">Access NASA Archives</button>
+                <button data-action="finishMission" class="btn primary">Complete Operations</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- 10. NASA Archives Screen -->
+          <section id="historyScreen" class="screen">
+            <div class="card panel">
+              <h2>NASA Archives: Spirit (MER-A)</h2>
+              <p>Landed on Mars January 4, 2004. Spirit operated for 6 years, 2 months, and 19 days—25 times over its original design lifetime.</p>
+              <div id="milestoneTimeline" class="milestone-container mt-2"></div>
+              <button data-action="finishMission" class="btn primary mt-2">Return to Debrief</button>
+            </div>
+          </section>
+
+          <!-- 11. Mission Debrief Screen -->
+          <section id="finishScreen" class="screen">
+            <div class="card panel center-content">
+              <h2>Mission Operations Concluded</h2>
+              <p>All primary telemetry targets processed. Subsystems entering low-power hibernation state.</p>
+              <div class="action-row">
+                <button data-action="resetGame" class="btn primary glowing-btn">Restart Simulator</button>
+                <button type="button" class="btn accent" id="debriefReturnAtlasBtn">Return to Planetary Atlas</button>
+              </div>
+            </div>
+          </section>
         </div>
-      </section>
-
-      <!-- 10. NASA Archives Screen -->
-      <section id="historyScreen" class="screen">
-        <div class="card panel">
-          <h2>NASA Archives: Spirit (MER-A)</h2>
-          <p>Landed on Mars January 4, 2004. Spirit operated for 6 years, 2 months, and 19 days—25 times over its original design lifetime. Its discovery of ancient silica-rich soil proved hydrothermal activity once existed on Mars.</p>
-
-          <div id="milestoneTimeline" class="milestone-container mt-2"></div>
-
-          <button data-action="finishMission" class="btn primary mt-2">Return to Debrief</button>
-        </div>
-      </section>
-
-      <!-- 11. Mission Debrief Screen -->
-      <section id="finishScreen" class="screen">
-        <div class="card panel center-content">
-          <h2>Mission Operations Concluded</h2>
-          <p>All primary telemetry targets processed. Subsystems entering low-power hibernation state.</p>
-          <button data-action="resetGame" class="btn primary glowing-btn">Restart Operator Interface</button>
-        </div>
-      </section>
-
+      </div>
     </main>
   </div>
 
-  <!-- Real NASA Image Inspection Modal -->
+  <!-- Atlas Object Story Drawer -->
+  <dialog id="objectPanel" class="object-panel" aria-labelledby="panelTitle">
+    <div class="panel-shell">
+      <div class="panel-topbar">
+        <p class="panel-kicker" id="panelKicker"></p>
+        <button class="close-button" id="panelClose" type="button" aria-label="Close story" data-i18n-aria="panel.close">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          <span class="sr-only" data-i18n="panel.close">Close story</span>
+        </button>
+      </div>
+      <div class="panel-scroll" id="panelContent"></div>
+    </div>
+  </dialog>
+
+  <!-- NASA JPL Photojournal Modal (Simulator) -->
   <div id="nasaPhotoModal" class="modal-overlay hidden">
     <div class="modal-card">
-      <button id="closeModalBtn" class="modal-close">&times;</button>
+      <button id="closeModalBtn" class="modal-close">×</button>
       <h3 id="modalPhotoTitle">NASA JPL Image Archive</h3>
       <div class="modal-image-wrapper">
         <img id="modalImg" src="" alt="NASA Mars Image Archive" />
@@ -310,8 +546,9 @@
     </div>
   </div>
 
-  <!-- JS Modules -->
-  <script type="module" src="spirit3D.js"></script>
-  <script type="module" src="script.js"></script>
+  <!-- Scripts -->
+  <script defer src="js/app.js"></script>
+  <script type="module" src="js/spirit3D.js"></script>
+  <script type="module" src="js/missionSim.js"></script>
 </body>
 </html>
